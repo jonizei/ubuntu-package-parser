@@ -1,0 +1,46 @@
+<html>
+    <head>
+        <title>Package Manager</title>
+        <script src="jquery-3.4.1.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="index.css" />
+        <meta charset="utf-8" />
+    </head>
+    <body>
+        <script>
+            $(document).ready(function() {
+
+                function linkClicked (event) {
+                    event.preventDefault();
+                    alert(event.data.msg);
+                }
+
+                function createTable(data) {
+
+                    var myTable = $("<table></table>");
+
+                    for(var i = 0; i < data.length; i++) {
+                        var tr = $("<tr></tr>");
+                        var td = $("<td></td>");
+                        var link = $("<a href=''>" + data[i].Package + "</a>")
+                        link.on("click", {msg: data[i].Package}, linkClicked);
+                        td.append(link);
+                        tr.append(td);
+                        myTable.append(tr);
+                    }
+
+                    $("body").append(myTable);
+
+                }
+
+                $.ajax({
+                    url: "http://localhost:8080/packages",
+                    method: "GET",
+                    success: function( result ) {
+                        createTable(result);
+                    }
+                });
+
+            });
+        </script>
+    </body>
+</html>

@@ -6,19 +6,17 @@ after_desc = [
 ]
 
 def parse(filename):
-    file = open(filename, "r")
-    content = file.read()
-
-    str_packages = content.split("\n\n")
-    packages = []
+    str_packages = open(filename, "r").read().split("\n\n")
+    package_list = []
 
     for str in str_packages:
         if not str == "":
-            packages.append(create_package(str))
+            package_list.append(create_package(str))
 
-    for package in packages:
-        print(package)
-        print("\n")
+    for package in package_list:
+        package["R_Depends"] = get_reverse_dependencies(package, package_list)
+
+    return package_list
     
 
 def create_package(str_pkg):
@@ -38,7 +36,7 @@ def create_package(str_pkg):
 def get_description(i, lines):
     description = ""
     for j in range(i, len(lines)):
-        if not contains(lines[j], after_desc):
+        if not contains_str(lines[j], after_desc):
             description += lines[j]
 
     return description.split(":")[1].strip()
@@ -52,9 +50,18 @@ def get_dependencies(str):
         dependency_list.append(item.strip().split(" ")[0])
 
     return dependency_list
-    
+
+def get_reverse_dependencies(package, package_list):
+    dependency_list = []
+    for pkg in package_list:
+        if "Depends" in pkg:
+            if package["Package"] in pkg["Depends"]:
+                dependency_list.append(pkg["Package"])
+
+    return dependency_list
+
                 
-def contains(str, list):
+def contains_str(str, list):
     does_contain = False
 
     for item in list:
