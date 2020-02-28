@@ -7,9 +7,18 @@
     </head>
     <body>
         <div id="app">
+            <!--
+                If app variable's property 'mode' equals 'list'
+                then print package list
+            -->
             <div v-if="mode === 'list'">
                 <pkg-list v-bind:list="packages"></pkg-list>
             </div>
+
+            <!--
+                If app variable's property 'mode' equals 'pkg'
+                then print package information
+            -->
             <div v-if="mode === 'pkg'">
                 <pkg-div v-bind:pkg="pkg"></pkg-div>
             </div>

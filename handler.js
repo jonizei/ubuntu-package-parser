@@ -1,3 +1,11 @@
+
+/**
+ * Link to a package
+ * If clicked it fetches data of
+ * a package with given name
+ * 
+ * Requires value as a property
+ */
 Vue.component('pkg-link', {
     props: ['value', 'text'],
     template: '<a href="" class="link" v-on:click="clickLink">{{ value }}{{ text }}</a>',
@@ -15,6 +23,12 @@ Vue.component('pkg-link', {
     }
 });
 
+/**
+ * Prints package depends as links using
+ * ', ' as a separator
+ * 
+ * Requires list as a property
+ */
 Vue.component('pkg-depends', {
     props: ['list'],
     template: `
@@ -31,6 +45,11 @@ Vue.component('pkg-depends', {
     `
 });
 
+/**
+ * Prints package information
+ * 
+ * Requires package as a property
+ */
 Vue.component('pkg-div', {
     props: ['pkg'],
     template: `
@@ -58,6 +77,11 @@ Vue.component('pkg-div', {
     }
 });
 
+/**
+ * Prints package names as list
+ * 
+ * Requires list as a property
+ */
 Vue.component('pkg-list', {
     props: ['list'],
     template: `
@@ -69,6 +93,9 @@ Vue.component('pkg-list', {
     `
 });
 
+/**
+ * Fetches package names from the server
+ */
 const app = new Vue({
     el: '#app',
     data: {

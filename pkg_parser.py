@@ -34,7 +34,8 @@ def create_package(str_pkg):
 
     for i in range(len(lines)):
         if lines[i].find("Package:") >= 0:
-            package["name"] = lines[i].split(":")[1].strip()
+            if lines[i].startswith("Package:"):
+                package["name"] = lines[i].split(":")[1].strip()
         elif lines[i].find("Depends:") >= 0:
             package["depends"] = get_dependencies(lines[i])
         elif lines[i].find("Description:") >= 0:

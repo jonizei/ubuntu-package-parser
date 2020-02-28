@@ -9,6 +9,7 @@ hostPort = 8080
 
 # Path to file
 filePath = "/var/lib/dpkg/status"
+#filePath = "./status.real"
 
 # Iterates through the given list and 
 # saves name of the package to another
@@ -60,7 +61,9 @@ def main():
                 self.send_header("Content-Type", "application/json")
                 self.end_headers()
 
-                data = json.dumps(get_package_names(package_list))
+                package_names = get_package_names(package_list)
+                package_names.sort()
+                data = json.dumps(package_names)
                 self.wfile.write(data.encode("utf-8"))
 
             # If path starts with '/packages/'
