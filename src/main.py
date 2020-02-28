@@ -11,7 +11,7 @@ hostPort = 8080
 # filePath = "/var/lib/dpkg/status"
 
 # A mock file
-filePath = "/status.real"
+filePath = "./src/status.real"
 
 # Iterates through the given list and 
 # saves name of the package to another
