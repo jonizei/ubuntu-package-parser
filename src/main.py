@@ -5,17 +5,19 @@ import os
 
 # Ip and port configuration
 hostName = "0.0.0.0"
-hostPort = int(os.environ.get("PORT", 17995))
+# FOR HEROKU
+# hostPort = int(os.environ.get("PORT", 17995))
+hostPort = 8080
 
 # Path to a file
 # Works only in Ubuntu or Debian
-# filePath = "/var/lib/dpkg/status"
+filePath = "/var/lib/dpkg/status"
 
 # Resource directory
-directory = "./src/"
+directory = "./"
 
 # A mock file
-filePath = directory + "status.real"
+# filePath = directory + "status.real"
 
 # Iterates through the given list and 
 # saves name of the package to another
