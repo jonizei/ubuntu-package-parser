@@ -1,46 +1,91 @@
 <html>
     <head>
         <title>Package Manager</title>
-        <script src="jquery-3.4.1.min.js"></script>
-        <link rel="stylesheet" type="text/css" href="index.css" />
+        <script src="vue.js"></script>
         <meta charset="utf-8" />
     </head>
     <body>
+        <div id="app">
+            <div v-if="mode === 'list'">
+                <ul v-for="package in packages">
+                    <li><pkg-link v-bind:value="package"/></li>
+                </ul>
+            </div>
+            <div v-if="mode === 'pkg'">
+                <a href="" v-on:click="goBack">Back to the list</a>
+                <p><b>Package:</b></p>
+                <p>{{ pkg.name }}</p>
+                <p><b>Description:</b></p>
+                <p>{{ pkg.description }}</p>
+                <p><b>Dependencies:</b></p>
+                <div v-if="pkg.depends">
+                    <span v-for="(package, index) in pkg.depends">
+                        <span v-if="index < pkg.depends.length-1">
+                            <pkg-link v-bind:value="package" text=", " />
+                        </span>
+                        <span v-if="index === pkg.depends.length-1">
+                            <pkg-link v-bind:value="package" text="" />
+                        </span>
+                    </span>
+                </div>
+                <p><b>Recursive dependencies:</b></p>
+                <div v-if="pkg.r_depends">
+                    <span v-for="(package, index) in pkg.r_depends">
+                        <span v-if="index < pkg.r_depends.length-1">
+                            <pkg-link v-bind:value="package" text=", " />
+                        </span>
+                        <span v-if="index === pkg.r_depends.length-1">
+                            <pkg-link v-bind:value="package" text="" />
+                        </span>
+                    </span>
+                </div>
+            </div>
+        </div>
         <script>
-            $(document).ready(function() {
 
-                function linkClicked (event) {
-                    event.preventDefault();
-                    alert(event.data.msg);
-                }
-
-                function createTable(data) {
-
-                    var myTable = $("<table></table>");
-
-                    for(var i = 0; i < data.length; i++) {
-                        var tr = $("<tr></tr>");
-                        var td = $("<td></td>");
-                        var link = $("<a href=''>" + data[i].Package + "</a>")
-                        link.on("click", {msg: data[i].Package}, linkClicked);
-                        td.append(link);
-                        tr.append(td);
-                        myTable.append(tr);
+            const app = new Vue({
+                el: '#app',
+                data: {
+                    mode: 'list',
+                    packages: [],
+                    pkg: {}
+                },
+                methods: {
+                    goBack: function(event) {
+                        event.preventDefault();
+                        this.mode = 'list';
+                    },
+                    getDependencies: function() {
+                        return "moikka";
                     }
-
-                    $("body").append(myTable);
-
+                },
+                created() {
+                    fetch('http://localhost:8080/packages')
+                    .then(response => response.json())
+                    .then(json => {
+                        this.packages = json;
+                        this.mode = 'list';
+                    });
                 }
-
-                $.ajax({
-                    url: "http://localhost:8080/packages",
-                    method: "GET",
-                    success: function( result ) {
-                        createTable(result);
-                    }
-                });
-
             });
+
+            Vue.component('pkg-link', {
+                props: ['value', 'text'],
+                template: '<a href="" v-on:click="clickLink">{{ value }}{{ text }}</a>',
+                methods: {
+                    clickLink : function(event) {
+                        event.preventDefault();
+                        var pkg_name = event.target.text.replace(", ", "");
+                        fetch('http://localhost:8080/packages/' + pkg_name)
+                        .then(response => response.json())
+                        .then(json => {
+                            app.$data.pkg = json;
+                            app.$data.mode = 'pkg';
+                        });
+                    }
+                }
+            });
+
         </script>
     </body>
 </html>

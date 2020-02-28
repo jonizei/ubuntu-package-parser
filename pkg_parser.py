@@ -14,7 +14,7 @@ def parse(filename):
             package_list.append(create_package(str))
 
     for package in package_list:
-        package["R_Depends"] = get_reverse_dependencies(package, package_list)
+        package["r_depends"] = get_reverse_dependencies(package, package_list)
 
     return package_list
     
@@ -25,11 +25,11 @@ def create_package(str_pkg):
 
     for i in range(len(lines)):
         if lines[i].find("Package:") >= 0:
-            package["Package"] = lines[i].split(":")[1].strip()
+            package["name"] = lines[i].split(":")[1].strip()
         elif lines[i].find("Depends:") >= 0:
-            package["Depends"] = get_dependencies(lines[i])
+            package["depends"] = get_dependencies(lines[i])
         elif lines[i].find("Description:") >= 0:
-            package["Description"] = get_description(i, lines)
+            package["description"] = get_description(i, lines)
 
     return package
 
@@ -54,9 +54,9 @@ def get_dependencies(str):
 def get_reverse_dependencies(package, package_list):
     dependency_list = []
     for pkg in package_list:
-        if "Depends" in pkg:
-            if package["Package"] in pkg["Depends"]:
-                dependency_list.append(pkg["Package"])
+        if "depends" in pkg:
+            if package["name"] in pkg["depends"]:
+                dependency_list.append(pkg["name"])
 
     return dependency_list
 
