@@ -9,6 +9,6 @@ setup(
     packages=['src'],
     requires=['http.server', 'json'],
     package_data={
-        'src': ['*.css', '*.js', '*.html', '*.real']
+        'src': ['src/*.css', 'src/*.js', 'src/*.html', 'src/*.real']
     }
 )
