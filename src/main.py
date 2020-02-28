@@ -148,4 +148,5 @@ def main():
     myhttpserver.server_close()
     print("Stopped listening", hostPort)
 
-main()
+if __name__ == "__main__":
+    main()
