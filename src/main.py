@@ -3,7 +3,7 @@ import json
 import pkg_parser as parser
 
 # Ip and port configuration
-hostName = "localhost"
+hostName = "0.0.0.0"
 hostPort = 8080
 
 # Path to a file
