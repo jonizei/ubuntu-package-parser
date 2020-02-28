@@ -11,8 +11,11 @@ hostPort = int(os.environ.get("PORT", 17995))
 # Works only in Ubuntu or Debian
 # filePath = "/var/lib/dpkg/status"
 
+# Resource directory
+directory = "./src/"
+
 # A mock file
-filePath = "./src/status.real"
+filePath = directory + "status.real"
 
 # Iterates through the given list and 
 # saves name of the package to another
@@ -96,7 +99,7 @@ def main():
                 self.send_header("Content-Type", "text/javascript")
                 self.end_headers()
 
-                f = open("./src/vue.js", "r")
+                f = open(directory + "vue.js", "r")
                 self.wfile.write(f.read().encode("utf-8"))
 
             # If path is '/handler.js'
@@ -109,7 +112,7 @@ def main():
                 self.send_header("Content-Type", "text/javascript")
                 self.end_headers()
 
-                f = open("./src/handler.js", "r")
+                f = open(directory + "handler.js", "r")
                 self.wfile.write(f.read().encode("utf-8"))
 
             # If path is '/index.css'
@@ -122,7 +125,7 @@ def main():
                 self.send_header("Content-Type", "text/css")
                 self.end_headers()
 
-                f = open("./src/index.css", "r")
+                f = open(directory + "index.css", "r")
                 self.wfile.write(f.read().encode("utf-8"))
 
             # If path is '/'
@@ -135,7 +138,7 @@ def main():
                 self.send_header("Content-Type", "text/html")
                 self.end_headers()
 
-                f = open("./src/index.html", "r")
+                f = open(directory + "index.html", "r")
                 self.wfile.write(f.read().encode("utf-8"))
 
     myhttpserver = HTTPServer((hostName, hostPort), MyHttpServer)
