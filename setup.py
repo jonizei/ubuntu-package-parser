@@ -7,5 +7,8 @@ setup(
     author='Joni Koskinen',
     author_email='joni.m.koskinen@gmail.com',
     packages=['src'],
-    install_requires['http.server', 'json']
+    ext_package=['http.server', 'json'],
+    package_data={
+        '': ['.css', '.js', '.html', '.real']
+    }
 )
