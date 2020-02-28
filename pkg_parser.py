@@ -1,10 +1,14 @@
 
+# Strings that are after description
 after_desc = [
     "Original-Maintainer:",
     "Homepage:",
     "\n"
 ]
 
+# Reads given file and split text with empty lines
+# Creates package dictionaries from the lines
+# Returns list of package dictionaries
 def parse(filename):
     str_packages = open(filename, "r").read().split("\n\n")
     package_list = []
@@ -17,8 +21,13 @@ def parse(filename):
         package["r_depends"] = get_reverse_dependencies(package, package_list)
 
     return package_list
-    
 
+# Creates package dictionary    
+# Splits text with line breaks
+# Finds "Package:" string from text and to dictionary
+# Finds "Depends:" string from text and to dictionary
+# Finds "Description:" string from text and to dictionary
+# Returns package dictionary
 def create_package(str_pkg):
     package = {}
     lines = str_pkg.split("\n")
@@ -33,6 +42,13 @@ def create_package(str_pkg):
 
     return package
 
+# Gets index of the "Description:" line
+# Gets lines after the "Description:" line
+# Appends to string if line doesn't contain 
+# specific strings
+# Removes "Description:" from the string by
+# spliting with ':' character
+# Returns string
 def get_description(i, lines):
     description = ""
     for j in range(i, len(lines)):
@@ -41,6 +57,14 @@ def get_description(i, lines):
 
     return description.split(":")[1].strip()
 
+# Removes "Depends:" from the string by
+# splitting with ':' character
+# Create list of dependencies by splitting
+# with '|' or ',' character
+# Removes version numbers from dependencies by
+# splitting with space
+# Appends item to the list
+# Returns the list
 def get_dependencies(str):
     str_dependencies = str.split(":")[1]
     list = str_dependencies.replace("|", ",").split(",")
@@ -51,6 +75,11 @@ def get_dependencies(str):
 
     return dependency_list
 
+# Iterates through all the given packages
+# and if given package's name appears in
+# other package's depends list then it adds
+# name of the package to the list
+# Returns the list
 def get_reverse_dependencies(package, package_list):
     dependency_list = []
     for pkg in package_list:
@@ -60,7 +89,9 @@ def get_reverse_dependencies(package, package_list):
 
     return dependency_list
 
-                
+# Checks if given string contains any of
+# the strings from the given list
+# Returns boolean                 
 def contains_str(str, list):
     does_contain = False
 
