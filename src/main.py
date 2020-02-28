@@ -3,7 +3,7 @@ import json
 import pkg_parser as parser
 
 # Ip and port configuration
-hostName = "localhost"
+hostName = "https://pure-caverns-80343.herokuapp.com/"
 hostPort = 8080
 
 # Path to a file
