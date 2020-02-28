@@ -3,89 +3,32 @@
         <title>Package Manager</title>
         <script src="vue.js"></script>
         <meta charset="utf-8" />
+        <style>
+            body {
+                font-size: 20px;
+            }
+            .txt {
+                width: 500px;
+                padding-left: 10px;
+            }
+            .link {
+                padding-right: 5px;
+            }
+            .list-item {
+                padding-left: 10px;
+                padding-bottom: 5px;
+            }
+        </style>
     </head>
     <body>
         <div id="app">
             <div v-if="mode === 'list'">
-                <ul v-for="package in packages">
-                    <li><pkg-link v-bind:value="package"/></li>
-                </ul>
+                <pkg-list v-bind:list="packages"></pkg-list>
             </div>
             <div v-if="mode === 'pkg'">
-                <a href="" v-on:click="goBack">Back to the list</a>
-                <p><b>Package:</b></p>
-                <p>{{ pkg.name }}</p>
-                <p><b>Description:</b></p>
-                <p>{{ pkg.description }}</p>
-                <p><b>Dependencies:</b></p>
-                <div v-if="pkg.depends">
-                    <span v-for="(package, index) in pkg.depends">
-                        <span v-if="index < pkg.depends.length-1">
-                            <pkg-link v-bind:value="package" text=", " />
-                        </span>
-                        <span v-if="index === pkg.depends.length-1">
-                            <pkg-link v-bind:value="package" text="" />
-                        </span>
-                    </span>
-                </div>
-                <p><b>Recursive dependencies:</b></p>
-                <div v-if="pkg.r_depends">
-                    <span v-for="(package, index) in pkg.r_depends">
-                        <span v-if="index < pkg.r_depends.length-1">
-                            <pkg-link v-bind:value="package" text=", " />
-                        </span>
-                        <span v-if="index === pkg.r_depends.length-1">
-                            <pkg-link v-bind:value="package" text="" />
-                        </span>
-                    </span>
-                </div>
+                <pkg-div v-bind:pkg="pkg"></pkg-div>
             </div>
         </div>
-        <script>
-
-            const app = new Vue({
-                el: '#app',
-                data: {
-                    mode: 'list',
-                    packages: [],
-                    pkg: {}
-                },
-                methods: {
-                    goBack: function(event) {
-                        event.preventDefault();
-                        this.mode = 'list';
-                    },
-                    getDependencies: function() {
-                        return "moikka";
-                    }
-                },
-                created() {
-                    fetch('http://localhost:8080/packages')
-                    .then(response => response.json())
-                    .then(json => {
-                        this.packages = json;
-                        this.mode = 'list';
-                    });
-                }
-            });
-
-            Vue.component('pkg-link', {
-                props: ['value', 'text'],
-                template: '<a href="" v-on:click="clickLink">{{ value }}{{ text }}</a>',
-                methods: {
-                    clickLink : function(event) {
-                        event.preventDefault();
-                        var pkg_name = event.target.text.replace(", ", "");
-                        fetch('http://localhost:8080/packages/' + pkg_name)
-                        .then(response => response.json())
-                        .then(json => {
-                            app.$data.pkg = json;
-                            app.$data.mode = 'pkg';
-                        });
-                    }
-                }
-            });
-
-        </script>
+        <script src="handler.js"></script>
     </body>
 </html>

@@ -61,7 +61,15 @@ def main():
                 f = open("vue.js", "r")
                 self.wfile.write(f.read().encode("utf-8"))
 
-            else:
+            elif self.path == "/handler.js":
+                self.send_response(200)
+                self.send_header("Content-Type", "text/javascript")
+                self.end_headers()
+
+                f = open("handler.js", "r")
+                self.wfile.write(f.read().encode("utf-8"))
+
+            elif self.path == "/":
                 self.send_response(200)
                 self.send_header("Content-Type", "text/html")
                 self.end_headers()
