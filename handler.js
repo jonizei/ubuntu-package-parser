@@ -4,6 +4,8 @@
  * If clicked it fetches data of
  * a package with given name
  * 
+ * Url: '/packages/{package-name}'
+ * 
  * Requires value as a property
  */
 Vue.component('pkg-link', {
@@ -13,7 +15,7 @@ Vue.component('pkg-link', {
         clickLink : function(event) {
             event.preventDefault();
             var pkg_name = event.target.text.replace(", ", "");
-            fetch('http://localhost:8080/packages/' + pkg_name)
+            fetch('/packages/' + pkg_name)
             .then(response => response.json())
             .then(json => {
                 app.$data.pkg = json;
@@ -95,6 +97,7 @@ Vue.component('pkg-list', {
 
 /**
  * Fetches package names from the server
+ * Url: '/packages'
  */
 const app = new Vue({
     el: '#app',
@@ -104,7 +107,7 @@ const app = new Vue({
         pkg: {}
     },
     created() {
-        fetch('http://localhost:8080/packages')
+        fetch('/packages')
         .then(response => response.json())
         .then(json => {
             this.packages = json;

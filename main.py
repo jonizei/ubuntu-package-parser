@@ -7,9 +7,12 @@ import pkg_parser as parser
 hostName = "localhost"
 hostPort = 8080
 
-# Path to file
-filePath = "/var/lib/dpkg/status"
-#filePath = "./status.real"
+# Path to a file
+# Works only in Ubuntu or Debian
+# filePath = "/var/lib/dpkg/status"
+
+# A mock file
+filePath = "./status.real"
 
 # Iterates through the given list and 
 # saves name of the package to another
