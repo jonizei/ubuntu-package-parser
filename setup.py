@@ -7,8 +7,8 @@ setup(
     author='Joni Koskinen',
     author_email='joni.m.koskinen@gmail.com',
     packages=['src'],
-    ext_package=['http.server', 'json'],
+    requires=['http.server', 'json'],
     package_data={
-        '': ['.css', '.js', '.html', '.real']
+        'src': ['*.css', '*.js', '*.html', '*.real']
     }
 )
