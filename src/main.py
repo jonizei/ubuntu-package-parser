@@ -1,10 +1,11 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import json
 import pkg_parser as parser
+import os
 
 # Ip and port configuration
 hostName = "0.0.0.0"
-hostPort = 8080
+hostPort = int(os.environ.get("PORT", 17995))
 
 # Path to a file
 # Works only in Ubuntu or Debian
