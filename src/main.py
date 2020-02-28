@@ -3,7 +3,7 @@ import json
 import pkg_parser as parser
 
 # Ip and port configuration
-hostName = "https://pure-caverns-80343.herokuapp.com/"
+hostName = "localhost"
 hostPort = 8080
 
 # Path to a file
@@ -95,7 +95,7 @@ def main():
                 self.send_header("Content-Type", "text/javascript")
                 self.end_headers()
 
-                f = open("vue.js", "r")
+                f = open("./src/vue.js", "r")
                 self.wfile.write(f.read().encode("utf-8"))
 
             # If path is '/handler.js'
@@ -108,7 +108,7 @@ def main():
                 self.send_header("Content-Type", "text/javascript")
                 self.end_headers()
 
-                f = open("handler.js", "r")
+                f = open("./src/handler.js", "r")
                 self.wfile.write(f.read().encode("utf-8"))
 
             # If path is '/index.css'
@@ -121,7 +121,7 @@ def main():
                 self.send_header("Content-Type", "text/css")
                 self.end_headers()
 
-                f = open("index.css", "r")
+                f = open("./src/index.css", "r")
                 self.wfile.write(f.read().encode("utf-8"))
 
             # If path is '/'
@@ -134,7 +134,7 @@ def main():
                 self.send_header("Content-Type", "text/html")
                 self.end_headers()
 
-                f = open("index.html", "r")
+                f = open("./src/index.html", "r")
                 self.wfile.write(f.read().encode("utf-8"))
 
     myhttpserver = HTTPServer((hostName, hostPort), MyHttpServer)
